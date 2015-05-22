@@ -1,4 +1,3 @@
-
 from gi.repository import Gtk
 from gi.repository import Gdk
 from gi.repository import GObject
@@ -8,9 +7,16 @@ import dbus
 import os
 import urllib2
 import json
+import sys
+import signal
+
+def signal_handler(signal, frame):
+    print(' Saliendo...')
+    sys.exit(0)
+
+signal.signal(signal.SIGINT, signal_handler)
 
 class LabelWindow(Gtk.Window):
-
     def __init__(self):
         Gtk.Window.__init__(self, title="Spotify Info GTK")
        	Gtk.Window.set_default_size(self,960,300) 
@@ -18,6 +24,9 @@ class LabelWindow(Gtk.Window):
         Gtk.Window.set_size_request(self,960,300)
 	Gtk.Window.set_name(self,'MyWindow')
 	Gtk.Window.set_icon_from_file(self,self.get_resource_path('spotify-client.png'))
+        self.window_is_fullscreen = False
+        self.connect("key_press_event",self.on_key_press_event)
+
 
 	#Variables de cache que uso luego	
 	self.trackid = ''
@@ -144,6 +153,22 @@ class LabelWindow(Gtk.Window):
 	rel_path_to_resource = os.path.join(dir_of_py_file, rel_path)
 	abs_path_to_resource = os.path.abspath(rel_path_to_resource)
 	return abs_path_to_resource
+
+    def toggle_full(self):
+        if not self.window_is_fullscreen:
+            Gtk.Window.fullscreen(self)
+            self.window_is_fullscreen = True
+        else:
+            Gtk.Window.unfullscreen(self)
+            self.window_is_fullscreen = False
+
+    def on_key_press_event(self, widget, event, user_data=None):
+        key = Gdk.keyval_name(event.keyval)
+        if key == "F11":
+              self.toggle_full()
+              return True
+        return False
+
 
 window = LabelWindow()        
 window.connect("delete-event", Gtk.main_quit)
