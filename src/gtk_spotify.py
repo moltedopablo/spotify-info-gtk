@@ -130,7 +130,6 @@ class LabelWindow(Gtk.Window):
 	album = cgi.escape(album)
         album = album[:32] + (album[32:] and ' ...')
 
-	title = reply['Metadata']['xesam:title']
         artist = '<i><small><span color="white">ARTIST: </span></small></i>' + artist
         album = '<i><small><span color="white">ALBUM: </span></small></i>' + album
 
