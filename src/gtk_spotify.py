@@ -42,7 +42,7 @@ class LabelWindow(Gtk.Window):
 
 	#MyWindow GtkLabel {
             background-color: #222326;
-	    color: #909298;
+	    color: #dbdce1;
             font-size:38px;
 	    margin:0px;
 	    padding:0px;
@@ -69,17 +69,20 @@ class LabelWindow(Gtk.Window):
 	
 	#Creo los labels
 	self.label_title = Gtk.Label()
-	self.label_title.set_justify(Gtk.Justification.LEFT)
 	self.label_title.set_use_markup(True)
-        box.pack_start(self.label_title, False, False, 20)
+        box.pack_start(self.label_title, False, False, 15)
 
 	self.label_artist = Gtk.Label()
+        self.label_artist.set_justify(Gtk.Justification.CENTER)
+	self.label_artist.set_alignment(0.5,0)
         self.label_artist.set_use_markup(True)
-        box.pack_start(self.label_artist, False, False, 20)
+        box.pack_start(self.label_artist, False, False, 10)
 
 	self.label_album = Gtk.Label()
         self.label_album.set_use_markup(True)
-        box.pack_start(self.label_album, False, False, 20)
+        self.label_album.set_justify(Gtk.Justification.CENTER)
+	self.label_album.set_alignment(0.5,0)
+        box.pack_start(self.label_album, False, False, 10)
 
 	self.image = Gtk.Image()
 	box.pack_start(self.image, False, False, 20)
@@ -139,8 +142,8 @@ class LabelWindow(Gtk.Window):
 	album = cgi.escape(album)
         album = album[:32] + (album[32:] and ' ...')
 
-        artist = '<i><small><span color="white">ARTIST: </span></small></i>' + artist
-        album = '<i><small><span color="white">ALBUM: </span></small></i>' + album
+        artist = '<i><small><span color="#909298">Artist </span></small></i>\n' + artist
+        album = '<i><small><span color="#909298">Album </span></small></i>\n' + album
 
 	self.label_title.set_text(title)
 	self.label_artist.set_markup(artist)
