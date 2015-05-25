@@ -146,8 +146,8 @@ class LabelWindow(Gtk.Window):
 	album = cgi.escape(album)
         album = album[:32] + (album[32:] and ' ...')
 
-        artist = '<i><small><span color="#909298">Artist </span></small></i>\n' + artist
-        album = '<i><small><span color="#909298">Album </span></small></i>\n' + album
+        artist = '<i><span size="16000" color="#909298">ARTIST </span></i>\n' + artist
+        album = '<i><span size="16000" color="#909298">ALBUM </span></i>\n' + album
 
 	self.label_title.set_text(title)
 	self.label_artist.set_markup(artist)
