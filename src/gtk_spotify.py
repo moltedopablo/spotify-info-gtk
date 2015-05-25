@@ -107,7 +107,11 @@ class LabelWindow(Gtk.Window):
     def timeout(self):
 	#Obtengo la informacion de la aplicacion mediante dbus
 	reply = self.get_spotify()
-	trackid = reply['Metadata']['xesam:url'].split(':')[2]
+        #Chequeo que me este devolviendo el track
+        if not ('Metadata' in reply and 'xesam:url' in reply['Metadata']):
+            return False
+
+        trackid = reply['Metadata']['xesam:url'].split(':')[2]
 
 	#Solo si cambio de track vuelvo a bajar la tapa del disco
 	if trackid != self.trackid:
