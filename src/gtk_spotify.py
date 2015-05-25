@@ -124,21 +124,23 @@ class LabelWindow(Gtk.Window):
 		self.last_album_url = url
 
                 #Creo el directorio de cache
-                if not os.path.exists('cache'):
-                    os.makedirs('cache')                
+                dir_of_py_file = os.path.dirname(__file__)
+                dirname = os.path.join(dir_of_py_file, 'cache')
+                if not os.path.exists(dirname):
+                    os.makedirs(dirname)                
                 
                 album_id = url.split("/")[-1]
-                if os.path.isfile('cache/'+album_id):
-                    print("Imagen en cache, no se descarga: " + url)
+                if os.path.isfile(os.path.join(dirname, album_id)):
+                    print("Cached cover, not downloading: " + url)
                 else:
-                    print('Bajando imagen del album: ' + url)
+                    print('Downloading album cover: ' + url)
                     response = urllib2.urlopen(url)
-                    f = open('cache/'+ album_id, "wb")
+                    f = open(os.path.join(dirname, album_id), "wb")
                     f.write(response.read())
                     f.close()
                     response.close()
 
-                self.image.set_from_pixbuf(Pixbuf.new_from_file('cache/'+ album_id))
+                self.image.set_from_pixbuf(Pixbuf.new_from_file(os.path.join(dirname, album_id)))
                 self.image.show() 
 	
 	title = reply['Metadata']['xesam:title']
