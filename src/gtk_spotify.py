@@ -122,15 +122,24 @@ class LabelWindow(Gtk.Window):
 	    #Solo si cambio de disco bajo la tapa
 	    if self.last_album_url != url:
 		self.last_album_url = url
-	        print('Bajando imagen del album: ' + url)
-	        response = urllib2.urlopen(url)
-	        fname = url.split("/")[-1]
-	        f = open('/tmp/'+fname, "wb")
-	        f.write(response.read())
-	        f.close()
-	        response.close()
-	        self.image.set_from_pixbuf(Pixbuf.new_from_file('/tmp/'+fname))
-	        self.image.show() 
+
+                #Creo el directorio de cache
+                if not os.path.exists('cache'):
+                    os.makedirs('cache')                
+                
+                album_id = url.split("/")[-1]
+                if os.path.isfile('cache/'+album_id):
+                    print("Imagen en cache, no se descarga: " + url)
+                else:
+                    print('Bajando imagen del album: ' + url)
+                    response = urllib2.urlopen(url)
+                    f = open('cache/'+ album_id, "wb")
+                    f.write(response.read())
+                    f.close()
+                    response.close()
+
+                self.image.set_from_pixbuf(Pixbuf.new_from_file('cache/'+ album_id))
+                self.image.show() 
 	
 	title = reply['Metadata']['xesam:title']
 	artist = reply['Metadata']['xesam:artist'][0]
