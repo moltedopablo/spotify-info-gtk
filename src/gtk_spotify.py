@@ -9,6 +9,7 @@ import urllib2
 import json
 import sys
 import signal
+import logging
 
 def signal_handler(signal, frame):
     print(' Saliendo...')
@@ -26,7 +27,7 @@ class LabelWindow(Gtk.Window):
 	Gtk.Window.set_icon_from_file(self,self.get_resource_path('spotify-client.png'))
         self.window_is_fullscreen = False
         self.connect("key_press_event",self.on_key_press_event)
-
+        logging.basicConfig(filename= os.path.join(os.path.dirname(__file__),'output.log'),level=logging.DEBUG)
 
 	#Variables de cache que uso luego	
 	self.trackid = ''
@@ -131,9 +132,9 @@ class LabelWindow(Gtk.Window):
                 
                 album_id = url.split("/")[-1]
                 if os.path.isfile(os.path.join(dirname, album_id)):
-                    print("Cached cover, not downloading: " + url)
+                    logging.debug("Cached cover, not downloading: " + url)
                 else:
-                    print('Downloading album cover: ' + url)
+                    logging.debug('Downloading album cover: ' + url)
                     response = urllib2.urlopen(url)
                     f = open(os.path.join(dirname, album_id), "wb")
                     f.write(response.read())
