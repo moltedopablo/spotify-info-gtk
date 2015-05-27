@@ -110,7 +110,7 @@ class LabelWindow(Gtk.Window):
 	reply = self.get_spotify()
         #Chequeo que me este devolviendo el track
         if not ('Metadata' in reply and 'xesam:url' in reply['Metadata']):
-            return False
+            return ''
 
         trackid = reply['Metadata']['xesam:url'].split(':')[2]
 
