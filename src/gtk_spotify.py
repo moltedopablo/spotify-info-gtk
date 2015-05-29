@@ -93,8 +93,8 @@ class LabelWindow(Gtk.Window):
 	#Fuerzo a que traiga la info de dbus
 	self.timeout()
 
-	#Agrego un timer para que refresque cada 500 milisegundos
-	GObject.timeout_add(500, self.timeout)
+	#Agrego un timer para que refresque cada 250 milisegundos
+	GObject.timeout_add(250, self.timeout)
 
 	
     def get_spotify(self):
@@ -110,7 +110,8 @@ class LabelWindow(Gtk.Window):
 	reply = self.get_spotify()
         #Chequeo que me este devolviendo el track
         if not ('Metadata' in reply and 'xesam:url' in reply['Metadata']):
-            return ''
+            logging.debug("Metadata not found")
+            return True
 
         trackid = reply['Metadata']['xesam:url'].split(':')[2]
 
