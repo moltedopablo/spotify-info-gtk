@@ -113,12 +113,13 @@ class LabelWindow(Gtk.Window):
             logging.debug("Metadata not found")
             return True
 
-        trackid = reply['Metadata']['xesam:url'].split(':')[2]
+        trackid = reply['Metadata']['mpris:trackid'].split(':')[2]
 
 	#Solo si cambio de track vuelvo a bajar la tapa del disco
 	if trackid != self.trackid:
 	    self.trackid = trackid
 	    url = 'https://api.spotify.com/v1/tracks/' + self.trackid
+            logging.debug("URL del track: " + url)
 	    data = json.load(urllib2.urlopen(url))
 	    url = data['album']['images'][0]['url']	  
 	    #Solo si cambio de disco bajo la tapa
